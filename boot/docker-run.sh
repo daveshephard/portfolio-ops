@@ -12,4 +12,4 @@ python manage.py auto_admin
 HOST=${HOST:-0.0.0.0}
 PORT=${PORT:-8080}
 
-exec gunicorn p53ai.wsgi:application --bind "$HOST:$PORT"
+exec gunicorn rainier_apps.wsgi:application --bind "$HOST:$PORT"

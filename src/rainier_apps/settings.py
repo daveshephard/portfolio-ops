@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     #'whitenoise.runserver_nostatic',  # Use WhiteNoise for static files in development
     
     # User Defined Apps
+    'ai_proposals',
     #'commando',
     #'blog.apps.BlogConfig',
     #'p53_nfl',
