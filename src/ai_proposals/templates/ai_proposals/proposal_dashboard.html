@@ -1,0 +1,342 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Proposal Assistant | Rainier Apps</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <style>
+        :root {
+            --bg: #020617;
+            --card-bg: #0b1120;
+            --border: #1f2937;
+            --accent: #38bdf8;
+            --accent-soft: rgba(56, 189, 248, 0.12);
+            --text-main: #e5e7eb;
+            --text-muted: #9ca3af;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: radial-gradient(circle at top left, #1e293b, #020617 55%, #020617);
+            color: var(--text-main);
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 260px minmax(0, 1fr);
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            padding: 1.5rem;
+            border-right: 1px solid var(--border);
+            background: #020617;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .brand {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: #9ca3af;
+        }
+
+        .brand span {
+            color: #7dd3fc;
+        }
+
+        .nav-section-title {
+            text-transform: uppercase;
+            font-size: 0.72rem;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .library-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .library-item {
+            padding: 0.45rem 0.55rem;
+            border-radius: 0.55rem;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        .library-item:hover,
+        .library-item.active {
+            background: rgba(15, 23, 42, 1);
+            color: var(--text-main);
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+        }
+
+        .tag {
+            padding: 0.1rem 0.55rem;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(148, 163, 184, 0.4);
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        /* MAIN AREA */
+        .main {
+            padding: 1.75rem 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .title-block h1 {
+            margin: 0;
+            font-size: 1.6rem;
+        }
+
+        .title-block p {
+            margin: 0.25rem 0 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .pill {
+            padding: 0.15rem 0.7rem;
+            display: inline-flex;
+            gap: 0.35rem;
+            align-items: center;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.74rem;
+        }
+
+        .pill-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: #22c55e;
+            box-shadow: 0 0 8px rgba(34, 197, 94, 0.9);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
+            gap: 1.3rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+            padding: 1.3rem;
+            box-shadow:
+                0 22px 40px rgba(15, 23, 42, 0.85),
+                0 0 0 1px rgba(15, 23, 42, 0.9);
+        }
+
+        .card h2 {
+            margin: 0 0 0.45rem;
+            font-size: 1rem;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 1rem;
+        }
+
+        .field label {
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 0.09em;
+            margin-bottom: 0.25rem;
+            color: var(--text-muted);
+        }
+
+        .field input,
+        .field textarea,
+        .field select {
+            background: #020617;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 0.6rem;
+            color: var(--text-main);
+        }
+
+        .field textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .btn-row {
+            text-align: right;
+            margin-top: 1.2rem;
+        }
+
+        .btn {
+            padding: 0.6rem 1rem;
+            border-radius: 999px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.88rem;
+            background: radial-gradient(circle at top left, #38bdf8, #0ea5e9);
+            color: #020617;
+            box-shadow: 0 15px 30px rgba(56, 189, 248, 0.35);
+        }
+
+        /* ACTIVITY SIDEBAR */
+        .activity-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .activity-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .activity-title {
+            font-size: 0.88rem;
+            color: var(--text-main);
+        }
+
+        .activity-meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+    </style>
+</head>
+
+<body>
+<div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div>
+            <div class="brand">Rainier <span>Proposal Assistant</span></div>
+        </div>
+
+        <div>
+            <div class="nav-section-title">Templates</div>
+            <ul class="library-list">
+                <li class="library-item active">Generic RFP Response</li>
+                <li class="library-item">Healthcare Payer Proposal</li>
+                <li class="library-item">Public Sector RFP Template</li>
+            </ul>
+        </div>
+
+        <div>
+            <div class="nav-section-title">Tags</div>
+            <div class="tag-list">
+                <span class="tag">Implementation</span>
+                <span class="tag">Claims Admin</span>
+                <span class="tag">Data & Reporting</span>
+                <span class="tag">Governance</span>
+            </div>
+        </div>
+
+        <div style="margin-top:auto;">
+            <a href="{% url 'app_hub' %}" style="color:#7dd3fc; text-decoration:none;">← Back to Apps</a>
+            <br><br>
+            <a href="{% url 'logout' %}" style="color:#7dd3fc; text-decoration:none;">Log out</a>
+        </div>
+    </aside>
+
+    <!-- MAIN AREA -->
+    <main class="main">
+        <header class="main-header">
+            <div class="title-block">
+                <h1>Proposal Workspace</h1>
+                <p>Generate polished RFP responses using AI + reusable content.</p>
+            </div>
+
+            <div class="pill">
+                <span class="pill-dot"></span>
+                Demo environment
+            </div>
+        </header>
+
+        <div class="content-grid">
+            <!-- LEFT: FORM -->
+            <section class="card">
+                <h2>New Proposal Request</h2>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <div class="field">
+                        <label>Client Name</label>
+                        <input type="text" placeholder="ACME Health Benefits Fund">
+                    </div>
+
+                    <div class="field">
+                        <label>Opportunity Title</label>
+                        <input type="text" placeholder="Claims + Eligibility Administration RFP">
+                    </div>
+
+                    <div class="field">
+                        <label>RFP Text / Requirements</label>
+                        <textarea placeholder="Paste questions, RFP excerpts, or high-level needs..."></textarea>
+                    </div>
+
+                    <div class="btn-row">
+                        <button class="btn" type="submit">Generate Draft →</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- RIGHT: HISTORY / CONTEXT -->
+            <aside class="card">
+                <h2>Recent Drafts</h2>
+
+                <ul class="activity-list">
+                    <li class="activity-item">
+                        <span class="activity-title">Multiemployer Claims RFP – Draft v2</span>
+                        <span class="activity-meta">Taft-Hartley · updated 3 days ago</span>
+                    </li>
+
+                    <li class="activity-item">
+                        <span class="activity-title">Pension Admin + Call Center</span>
+                        <span class="activity-meta">Defined Benefit · updated 1 week ago</span>
+                    </li>
+
+                    <li class="activity-item">
+                        <span class="activity-title">Reporting & Analytics Add-On</span>
+                        <span class="activity-meta">Analytics · concept only</span>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

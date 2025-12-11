@@ -391,3 +391,7 @@ VISUAL_CROSSING_API_KEY = os.getenv("VISUAL_CROSSING_API_KEY")
 VISUAL_CROSSING_BASE = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline"
 VISUAL_CROSSING_UNIT_GROUP = "us"     # or "metric"
 VISUAL_CROSSING_INCLUDE = "hours"
+
+LOGIN_URL = "login"            # "/" is your LoginView
+LOGIN_REDIRECT_URL = "/apps/"  # after login, go to app hub
+LOGOUT_REDIRECT_URL = "/"      # after logout, back to login
